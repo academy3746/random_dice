@@ -15,11 +15,11 @@ class RootScreen extends StatefulWidget {
 }
 
 class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
+  BackHandlerButton? backHandlerButton;
+
   TabController? controller;
 
   double threshold = 2.7;
-
-  BackHandlerButton? backHandlerButton;
 
   List<Widget> screens() {
     return [
