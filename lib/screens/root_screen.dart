@@ -1,9 +1,8 @@
-// ignore_for_file: deprecated_member_use
-
+import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:random_dice/common/widgets/back_handler_button.dart';
 import 'package:random_dice/screens/home_screen.dart';
 import 'package:random_dice/screens/settings_screen.dart';
+import 'package:shake/shake.dart';
 
 class RootScreen extends StatefulWidget {
   const RootScreen({super.key});
@@ -15,15 +14,35 @@ class RootScreen extends StatefulWidget {
 }
 
 class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
-  BackHandlerButton? backHandlerButton;
-
   TabController? controller;
 
   double threshold = 2.7;
 
+  int number = 1;
+
+  ShakeDetector? shakeDetector;
+
+  @override
+  void initState() {
+    super.initState();
+
+    controller = TabController(
+      length: 2,
+      vsync: this,
+    );
+
+    controller!.addListener(_tabListener);
+
+    shakeDetector = ShakeDetector.autoStart(
+        onPhoneShake: _onPhoneShake,
+        shakeSlopTimeMS: 100,
+        shakeThresholdGravity: threshold
+    );
+  }
+
   List<Widget> screens() {
     return [
-      const HomeScreen(number: 1),
+      HomeScreen(number: number),
       SettingsScreen(
         threshold: threshold,
         onThresholdChange: _onThresholdChange,
@@ -31,13 +50,21 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
     ];
   }
 
-  void _tabListener() {
+  _tabListener() {
     setState(() {});
   }
 
-  void _onThresholdChange(double value) {
+  _onThresholdChange(double value) {
     setState(() {
       threshold = value;
+    });
+  }
+
+  void _onPhoneShake() {
+    final rand = Random();
+
+    setState(() {
+      number = rand.nextInt(5) + 1;
     });
   }
 
@@ -63,43 +90,22 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
   }
 
   @override
-  void initState() {
-    super.initState();
-
-    controller = TabController(
-      length: 2,
-      vsync: this,
-    );
-
-    controller!.addListener(_tabListener);
-
-    backHandlerButton = BackHandlerButton(context: context);
-  }
-
-  @override
   void dispose() {
     controller!.removeListener(_tabListener);
+
+    shakeDetector!.stopListening();
 
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        if (backHandlerButton != null) {
-          return backHandlerButton!.onWillPop();
-        }
-
-        return Future.value(false);
-      },
-      child: Scaffold(
-        body: TabBarView(
-          controller: controller,
-          children: screens(),
-        ),
-        bottomNavigationBar: bottomNavigationBar(),
+    return Scaffold(
+      body: TabBarView(
+        controller: controller,
+        children: screens(),
       ),
+      bottomNavigationBar: bottomNavigationBar(),
     );
   }
 }

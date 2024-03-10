@@ -4,6 +4,8 @@ import 'package:random_dice/screens/root_screen.dart';
 import 'package:random_dice/screens/splash_screen.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(const DiceApp());
 }
 
