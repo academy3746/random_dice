@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:random_dice/screens/home_screen.dart';
 
 class RootScreen extends StatefulWidget {
   const RootScreen({super.key});
@@ -14,12 +15,7 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
 
   List<Widget> screens() {
     return [
-      const Center(
-        child: Text(
-          'Screen01',
-          style: TextStyle(color: Colors.white),
-        ),
-      ),
+      const HomeScreen(number: 1),
       const Center(
         child: Text(
           'Screen02',

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:random_dice/common/constants/colors.dart';
-import 'package:random_dice/screens/main_screen.dart';
 import 'package:random_dice/screens/root_screen.dart';
 import 'package:random_dice/screens/splash_screen.dart';
 
@@ -34,7 +33,6 @@ class DiceApp extends StatelessWidget {
       initialRoute: SplashScreen.routeName,
       routes: {
         SplashScreen.routeName: (context) => const SplashScreen(),
-        MainScreen.routeName: (context) => const MainScreen(),
         RootScreen.routeName: (context) => const RootScreen(),
       },
     );
