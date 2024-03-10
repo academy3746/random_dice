@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:random_dice/common/constants/colors.dart';
 import 'package:random_dice/screens/main_screen.dart';
+import 'package:random_dice/screens/root_screen.dart';
 import 'package:random_dice/screens/splash_screen.dart';
 
 void main() {
@@ -12,10 +14,19 @@ class DiceApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Random Dice',
+      title: 'Gyro Dice',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent),
-        primaryColor: Colors.blueAccent,
+        scaffoldBackgroundColor: backgroundColor,
+        sliderTheme: SliderThemeData(
+          thumbColor: primaryColor,
+          activeTrackColor: primaryColor,
+          inactiveTrackColor: primaryColor.withOpacity(0.3),
+        ),
+        bottomNavigationBarTheme: BottomNavigationBarThemeData(
+          backgroundColor: backgroundColor,
+          selectedItemColor: primaryColor,
+          unselectedItemColor: secondaryColor,
+        ),
         useMaterial3: true,
         visualDensity: VisualDensity.adaptivePlatformDensity
       ),
@@ -24,6 +35,7 @@ class DiceApp extends StatelessWidget {
       routes: {
         SplashScreen.routeName: (context) => const SplashScreen(),
         MainScreen.routeName: (context) => const MainScreen(),
+        RootScreen.routeName: (context) => const RootScreen(),
       },
     );
   }
