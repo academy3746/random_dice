@@ -11,8 +11,6 @@ class HomeScreen extends StatelessWidget {
 
   final int number;
 
-  static const String routeName = '/home';
-
   @override
   Widget build(BuildContext context) {
     return Column(

@@ -1,5 +1,9 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
+import 'package:random_dice/common/widgets/back_handler_button.dart';
 import 'package:random_dice/screens/home_screen.dart';
+import 'package:random_dice/screens/settings_screen.dart';
 
 class RootScreen extends StatefulWidget {
   const RootScreen({super.key});
@@ -13,20 +17,28 @@ class RootScreen extends StatefulWidget {
 class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
   TabController? controller;
 
+  double threshold = 2.7;
+
+  BackHandlerButton? backHandlerButton;
+
   List<Widget> screens() {
     return [
       const HomeScreen(number: 1),
-      const Center(
-        child: Text(
-          'Screen02',
-          style: TextStyle(color: Colors.white),
-        ),
+      SettingsScreen(
+        threshold: threshold,
+        onThresholdChange: _onThresholdChange,
       ),
     ];
   }
 
   void _tabListener() {
     setState(() {});
+  }
+
+  void _onThresholdChange(double value) {
+    setState(() {
+      threshold = value;
+    });
   }
 
   BottomNavigationBar bottomNavigationBar() {
@@ -60,6 +72,8 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
     );
 
     controller!.addListener(_tabListener);
+
+    backHandlerButton = BackHandlerButton(context: context);
   }
 
   @override
@@ -71,12 +85,21 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: TabBarView(
-        controller: controller,
-        children: screens(),
+    return WillPopScope(
+      onWillPop: () async {
+        if (backHandlerButton != null) {
+          return backHandlerButton!.onWillPop();
+        }
+
+        return Future.value(false);
+      },
+      child: Scaffold(
+        body: TabBarView(
+          controller: controller,
+          children: screens(),
+        ),
+        bottomNavigationBar: bottomNavigationBar(),
       ),
-      bottomNavigationBar: bottomNavigationBar(),
     );
   }
 }
