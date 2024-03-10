@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:random_dice/common/sizes.dart';
+import 'package:random_dice/common/constants/sizes.dart';
 
 class Gaps {
   // Vertical Gaps

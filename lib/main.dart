@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:random_dice/screens/main_screen.dart';
+import 'package:random_dice/screens/splash_screen.dart';
 
 void main() {
   runApp(const DiceApp());
@@ -19,8 +20,9 @@ class DiceApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity
       ),
       debugShowCheckedModeBanner: false,
-      initialRoute: MainScreen.routeName,
+      initialRoute: SplashScreen.routeName,
       routes: {
+        SplashScreen.routeName: (context) => const SplashScreen(),
         MainScreen.routeName: (context) => const MainScreen(),
       },
     );
