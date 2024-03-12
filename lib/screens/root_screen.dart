@@ -27,7 +27,7 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
     super.initState();
 
     controller = TabController(
-      length: 2,
+      length: screens().length,
       vsync: this,
     );
 
